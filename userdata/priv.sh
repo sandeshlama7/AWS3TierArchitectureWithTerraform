@@ -1,32 +1,19 @@
 #!/bin/bash
-# Update all packages
-yum update -y
-dnf update -y
+apt-get install -y apache2
+systemctl start apache2
+apt-get install -y php php-mysql git mysql-client
 
-#Install Apache
-yum install httpd -y
-#Start and enable Apache
-systemctl start httpd
-systemctl enable httpd
-#Install php and its extensions
-yum install -y php php-mysqlnd php-bcmath php-ctype php-fileinfo php-json php-openssl php-gd php-tokenizer
-
-#  echo "<center><h1>Hello TEST</h1></center>" > /var/www/html/index.html
-# systemctl restart httpd
-yum install git -y
-
-cd ~/   #Change to Home Directory
-
+cd ~
 git clone https://github.com/sandeshlama7/LAMP-EmployeeApp.git
 sed -i "s/DB_SERVER/'${RDS_ENDPOINT}'/g" LAMP-EmployeeApp/index.php
-
 mv LAMP-EmployeeApp/* /var/www/html/
 
-#Install Mysql Client
-wget https://dev.mysql.com/get/mysql84-community-release-el9-1.noarch.rpm
-dnf -y install mysql84-community-release-el9-1.noarch.rpm
-dnf -y install mysql-community-server
-systemctl restart httpd
+echo "DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm" | sudo tee /etc/apache2/mods-enabled/dir.conf
 
-#Create a database inside the RDS
-# mysql -h$HOST -u$USER -p$PASS -e "CREATE DATABASE Employees";
+sed -i "s/80/8080/g" /etc/apache2/sites-available/000-default.conf
+
+sed -i "s/80/8080/g"  /etc/apache2/ports.conf
+
+systemctl restart apache2
+
+

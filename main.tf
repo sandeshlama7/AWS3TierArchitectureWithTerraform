@@ -2,8 +2,7 @@
 resource "aws_vpc" "vpc-sandesh" {
   cidr_block = local.vpc_cidr
   tags = {
-    Name  = "vpc-terraform-sandesh"
-    owner = var.owner_tag
+    Name = "vpc-terraform-sandesh"
   }
 }
 
@@ -15,8 +14,7 @@ resource "aws_subnet" "subnets" {
   cidr_block        = each.value.cidr
   availability_zone = each.value.az
   tags = {
-    Name  = each.key
-    owner = var.owner_tag
+    Name = each.key
   }
 }
 
@@ -31,14 +29,14 @@ resource "aws_security_group" "sg-vpc" {
 
   ingress {
     description = "Allow HTTP"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [local.cidr_all]
     from_port   = 80
     protocol    = "tcp"
     to_port     = 80
   }
   ingress {
     description = "Allow HTTPS"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [local.cidr_all]
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -49,7 +47,7 @@ resource "aws_security_group" "sg-vpc" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [local.cidr_all]
   }
 }
 
@@ -57,8 +55,7 @@ resource "aws_security_group" "sg-vpc" {
 resource "aws_internet_gateway" "IGW" {
   vpc_id = aws_vpc.vpc-sandesh.id
   tags = {
-    Name  = "IGW-Terra-Sandesh"
-    owner = local.owner_tag
+    Name = "IGW-Terra-Sandesh"
   }
 }
 
@@ -83,7 +80,7 @@ resource "aws_route_table" "public-route-table" {
   vpc_id = aws_vpc.vpc-sandesh.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = local.cidr_all
     gateway_id = aws_internet_gateway.IGW.id
   }
   tags = {
@@ -95,7 +92,7 @@ resource "aws_route_table" "public-route-table" {
 resource "aws_route_table" "private-route-table" {
   vpc_id = aws_vpc.vpc-sandesh.id
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = local.cidr_all
     gateway_id = aws_nat_gateway.NAT.id
   }
   tags = {

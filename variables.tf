@@ -48,3 +48,8 @@ variable "instance_type" {
   type        = string
   default     = "t2.micro"
 }
+variable "cidr_all" {
+  description = "All CIDRs"
+  type        = string
+  default     = "0.0.0.0/0"
+}

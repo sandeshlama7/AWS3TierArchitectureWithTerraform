@@ -4,4 +4,5 @@ locals {
   ami           = var.ami
   instance_type = var.instance_type
   owner_tag     = var.owner_tag
+  cidr_all      = var.cidr_all
 }
