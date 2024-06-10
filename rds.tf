@@ -1,12 +1,12 @@
 resource "aws_db_instance" "DB-Terraform-Sandesh" {
   instance_class         = "db.t3.micro"
   allocated_storage      = 10
-  db_name                = "employeeDB"
-  engine                 = "mysql"
-  engine_version         = "8.0"
-  username               = "admin"
-  password               = "admin123"
-  parameter_group_name   = "default.mysql8.0"
+  db_name                = local.rds_db_name
+  engine                 = local.rds_engine
+  engine_version         = local.rds_engine_version
+  username               = local.rds_username
+  password               = local.rds_pass
+  parameter_group_name   = local.rds_parameter_group
   db_subnet_group_name   = aws_db_subnet_group.rds-subnets.name
   vpc_security_group_ids = [aws_security_group.SG-RDS.id]
   publicly_accessible    = false

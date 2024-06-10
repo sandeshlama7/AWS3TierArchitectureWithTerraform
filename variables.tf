@@ -26,30 +26,30 @@ variable "subnets-conf" {
 variable "region" {
   description = "Region"
   type        = string
-  default     = "us-east-1"
 }
 variable "owner_tag" {
   description = "Values for owner Tags"
   type        = string
-  default     = "sandesh.lama"
 }
 variable "vpc_cidr" {
   description = "CIDR block for VPC"
   type        = string
-  default     = "10.0.0.0/16"
 }
 variable "ami" {
   description = "AMI for our instance"
   type        = string
-  default     = "ami-00beae93a2d981137"
 }
 variable "instance_type" {
   description = "instance type for ec2"
   type        = string
-  default     = "t2.micro"
 }
 variable "cidr_all" {
   description = "All CIDRs"
   type        = string
-  default     = "0.0.0.0/0"
 }
+variable "rds_db_name" {}
+variable "rds_engine" {}
+variable "rds_engine_version" {}
+variable "rds_username" {}
+variable "rds_pass" {}
+variable "rds_parameter_group" {}

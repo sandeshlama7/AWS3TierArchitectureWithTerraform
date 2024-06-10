@@ -8,7 +8,7 @@ resource "aws_vpc" "vpc-sandesh" {
 
 # SUBNETS
 resource "aws_subnet" "subnets" {
-  for_each = var.subnets-conf
+  for_each = local.subnets-conf
 
   vpc_id            = aws_vpc.vpc-sandesh.id
   cidr_block        = each.value.cidr
